@@ -12,6 +12,7 @@
             <label for="username">아이디</label>
             <input type="text" id="username" name="username" required placeholder="Username" value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : "" %>" />
         </div>
+        <div class="wrong_container"><%=request.getAttribute("errorMessage")%></div>
         <div class="input_group">
             <label for="password">비밀번호</label>
             <input type="password" id="password" name="password" required placeholder="Password" />
@@ -32,6 +33,18 @@
         <button type="submit" class="btn">회원가입</button>
     </form>
 </div>
+<%
+    String errorMessage = (String) request.getAttribute("errorMessage");
+    if (errorMessage != null) {
+%>
+<script type="text/javascript">
+    console.log("error");
+    const wrong = document.querySelector(".wrong_container");
+    wrong.style.visibility = "visible";
+</script>
+<%
+    }
+%>
 <script>
     function checkPassword() {
         console.log("checkPassword");

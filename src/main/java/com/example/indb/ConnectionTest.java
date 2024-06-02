@@ -5,7 +5,7 @@ import java.sql.*;
 public class ConnectionTest {
 
     public static void main(String[] args) {
-        String jdbc_driver = "oracle.jdbc.driver.OracleDriver";
+        String jdbc_driver = "oracle.jdbc.OracleDriver";
         String jdbc_url = "jdbc:oracle:thin:@localhost:1521:XE";
 
         try {

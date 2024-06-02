@@ -47,12 +47,11 @@ public class RegisterController extends HttpServlet {
             req.getRequestDispatcher("/screen/success.jsp").forward(req, resp);
         } else {
             System.out.println("중복 아이디");
-            req.getSession().setAttribute("username", username);
-            req.getSession().setAttribute("password", password);
-            req.getSession().setAttribute("person_name", personName);
-            req.getSession().setAttribute("phone_number", phoneNumber);
-            req.getSession().setAttribute("errorMessage", "이미 존재하는 아이디입니다.");
-            resp.sendRedirect(req.getContextPath() + "/screen/register.jsp");
+            req.setAttribute("username", username);
+            req.setAttribute("person_name", personName);
+            req.setAttribute("phone_number", phoneNumber);
+            req.setAttribute("errorMessage", "이미 존재하는 아이디입니다.");
+            req.getRequestDispatcher("/screen/register.jsp").forward(req, resp);
         }
     }
 }

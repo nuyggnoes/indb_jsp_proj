@@ -71,3 +71,9 @@ a:visited{
     visibility: hidden;
     text-align: right;
 }
+.wrong_container{
+    color: red;
+    font-size: 12px;
+    visibility: hidden;
+    text-align: right;
+}

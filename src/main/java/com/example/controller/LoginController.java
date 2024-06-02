@@ -13,7 +13,6 @@ public class LoginController extends HttpServlet {
     private UserService userService;
     public void init() {
         userService = new UserService();
-
     }
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -30,7 +29,7 @@ public class LoginController extends HttpServlet {
         UserDTO loginResult = userService.loginUser(username, password);
         if (loginResult != null) {
             req.getSession().setAttribute("user", loginResult);
-            resp.sendRedirect(req.getContextPath() + "/screen/main.jsp");
+            resp.sendRedirect(req.getContextPath() + "/");
         } else {
             req.setAttribute("username", username);
             req.setAttribute("errorMessage", "아이디 또는 비밀번호가 틀렸습니다.");

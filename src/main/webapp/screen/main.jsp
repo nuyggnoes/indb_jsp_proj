@@ -1,4 +1,6 @@
 <%@ page import="com.example.dto.UserDTO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.dto.StoreDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="en">
@@ -6,20 +8,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>메인페이지</title>
-    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="./css/main.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 </head>
 <body>
 <%
+    List<StoreDTO> storeList = (List<StoreDTO>) session.getAttribute("store_list");
     UserDTO user = (UserDTO) session.getAttribute("user");
 %>
 <header class="nav">
     <div class="nav-container">
-        <div class="nav-logo">
-            <i class="bx bxs-cube"></i>
-            <a href="#" class="nav-logo-text">MainLogo</a>
-        </div>
+        <a href="<%=request.getContextPath()%>/">
+            <div class="nav-logo" onclick="goMain()">
+                <i class="bx bxs-cube"></i>
+                <div class="nav-logo-text">MainLogo</div>
+            </div>
+        </a>
         <div class="search-container">
             <div class="search-bar">
                 <input id="search" type="text" placeholder="검색" />
@@ -32,22 +37,19 @@
                 </button>
             </form>
         </div>
-<%--        <ul class="nav-list">--%>
-<%--            <li class="nav-item">--%>
-<%--                <a href="#" target="_blank" class="nav-text">로그인</a>--%>
-<%--            </li>--%>
-<%--            <li class="nav-item">--%>
-<%--                <a href="#" target="_blank" class="nav-text">회원가입</a>--%>
-<%--            </li>--%>
-<%--        </ul>--%>
+        <%--        <ul class="nav-list">--%>
+        <%--            <li class="nav-item">--%>
+        <%--                <a href="#" target="_blank" class="nav-text">로그인</a>--%>
+        <%--            </li>--%>
+        <%--            <li class="nav-item">--%>
+        <%--                <a href="#" target="_blank" class="nav-text">회원가입</a>--%>
+        <%--            </li>--%>
+        <%--        </ul>--%>
         <ul class="nav-list">
             <c:choose>
                 <c:when test="${not empty sessionScope.user}">
                     <li class="nav-item">
-                        <a href="#" class="nav-text">${sessionScope.user.username}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="<%=request.getContextPath()%>/logout" class="nav-text">로그아웃</a>
+                        <a href="#" class="nav-text">${sessionScope.user.username}님 환영합니다.</a>
                     </li>
                 </c:when>
                 <c:otherwise>
@@ -64,7 +66,7 @@
 </header>
 <main class="main-screen">
     <div class="category-list-container">
-        <div class="category-box">#카테고리</div>
+        <div class="category-box">#main.jsp</div>
         <div class="category-box">#카테고리</div>
         <div class="category-box">#카테고리</div>
         <div class="category-box">#카테고리</div>
@@ -72,8 +74,23 @@
         <div class="category-box">#카테고리</div>
     </div>
     <div class="grid-container">
+        <c:forEach var="store" items="${sessionScope.store_list}">
+            <a href="detail?store_id=${store.store_id}">
+                <div class="new-card-container">
+
+                        <img src="imgServlet?store_id=${store.store_id}" />
+
+                    <div class="overlay">
+                        <div class="text-container">
+                            <div class="store-title">${store.store_name}</div>
+                            <div class="store-location">${store.location}</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </c:forEach>
         <div class="new-card-container">
-            <img src="./img/하이바 경성대점.png" />
+            <img src="imgServlet?imgName=sample1" />
             <div class="overlay">
                 <div class="text-container">
                     <div class="store-title">하이바</div>
@@ -82,7 +99,7 @@
             </div>
         </div>
         <div class="new-card-container">
-            <img src="./img/하이바 경성대점.png" />
+            <img src="imgServlet?imgName=sample1" />
             <div class="overlay">
                 <div class="text-container">
                     <div class="store-title">하이바</div>
@@ -91,7 +108,7 @@
             </div>
         </div>
         <div class="new-card-container">
-            <img src="./img/하이바 경성대점.png" />
+            <img src="imgServlet?imgName=sample1" />
             <div class="overlay">
                 <div class="text-container">
                     <div class="store-title">하이바</div>
@@ -99,42 +116,7 @@
                 </div>
             </div>
         </div>
-        <div class="new-card-container">
-            <img src="./img/하이바 경성대점.png" />
-            <div class="overlay">
-                <div class="text-container">
-                    <div class="store-title">하이바</div>
-                    <div class="store-location">남구 용소로13번길 32 1, 2층</div>
-                </div>
-            </div>
-        </div>
-        <div class="new-card-container">
-            <img src="./img/하이바 경성대점.png" />
-            <div class="overlay">
-                <div class="text-container">
-                    <div class="store-title">하이바</div>
-                    <div class="store-location">남구 용소로13번길 32 1, 2층</div>
-                </div>
-            </div>
-        </div>
-        <div class="new-card-container">
-            <img src="./img/하이바 경성대점.png" />
-            <div class="overlay">
-                <div class="text-container">
-                    <div class="store-title">하이바</div>
-                    <div class="store-location">남구 용소로13번길 32 1, 2층</div>
-                </div>
-            </div>
-        </div>
-        <div class="new-card-container">
-            <img src="./img/하이바 경성대점.png" />
-            <div class="overlay">
-                <div class="text-container">
-                    <div class="store-title">하이바</div>
-                    <div class="store-location">남구 용소로13번길 32 1, 2층</div>
-                </div>
-            </div>
-        </div>
+
         <!-- <div class="card-container">
           <div class="img-container"><img src="./img/하이바 경성대점.png" /></div>
           <div class="text-container">

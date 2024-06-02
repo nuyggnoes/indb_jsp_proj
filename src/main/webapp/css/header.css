@@ -1,0 +1,101 @@
+.nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: block;
+    background-color: #fff;
+    box-shadow: inset 0 -1px 0 #f6f6f6;
+    z-index: 10;
+}
+.nav .nav-container{
+    display:flex;
+    height: 70px;
+    max-width: 1640px;
+    min-width: 1100px;
+    padding: 10px 25px;
+    margin: auto;
+    align-items: center;
+
+}
+
+.nav .nav-container .nav-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.nav .nav-container .nav-logo i{
+    font-size: 40px;
+    color: #FF6A00;
+}
+.nav .nav-container .nav-logo .nav-logo-text{
+    color: #FF6A00;
+    font-size: 28px;
+    font-weight: 600;
+
+}
+
+.nav .nav-container .nav-list{
+    display: flex;
+    height: 50px;
+    align-items: center;
+    justify-content: end;
+}
+.nav .nav-container .nav-list .nav-item{
+    margin: 0px 12px;
+}
+.nav .nav-container .nav-list .nav-item .nav-text{
+    color: grey;
+    font-size: 15px;
+    font-weight: 500;
+}
+.nav .nav-container .nav-list .nav-item .nav-text:hover{
+    color: black;
+}
+
+
+.search-container{
+    display: flex;
+    max-width: 700px;
+    border: 1px solid #f2f2f2;
+    width: 700px;
+    height:25px;
+    background-color: #f2f2f2;
+    padding: 14px 20px;
+    border-radius: 30px;
+    margin: auto;
+}
+.search-container:focus-within{
+    background-color: #ffffff;
+    border: 1px solid grey;
+}
+.search-container .search-icon{
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    color: grey;
+    padding-right: 15px;
+    border: none;
+    background: none;
+}
+.search-container .search-icon label{
+    cursor: pointer;
+}
+.search-container .search-bar{
+    display: flex;
+    width: 100%;
+}
+.search-container .search-bar input{
+    width: 100%;
+    outline: none;
+    border: none;
+    background-color: #f2f2f2;
+    font-size: 20px;
+    font-weight: 600;
+}
+.search-container .search-bar input:focus{
+    background-color: #ffffff;
+}
+.search-container .search-bar input::placeholder{
+    color: #d7d7d7;
+    opacity: 0.5;
+}
