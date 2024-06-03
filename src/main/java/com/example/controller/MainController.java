@@ -20,8 +20,14 @@ public class MainController extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         System.out.println("[GET] / (main.jsp)");
-        List<StoreDTO> store_list = storeService.getAllStoreInfo();
-        request.getSession().setAttribute("store_list", store_list);
+        String searchKeyword = request.getParameter("searchKeyword");
+        List<StoreDTO> storeList;
+        if(searchKeyword != null && !searchKeyword.trim().isEmpty()) {
+            storeList = storeService.searchStoreByKeyword(searchKeyword);
+        }else{
+            storeList = storeService.getAllStoreInfo();
+        }
+        request.getSession().setAttribute("store_list", storeList);
         request.getRequestDispatcher("/screen/main.jsp").forward(request, response);
     }
 

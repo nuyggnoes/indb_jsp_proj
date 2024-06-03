@@ -20,18 +20,18 @@
 <header class="nav">
     <div class="nav-container">
         <a href="<%=request.getContextPath()%>/">
-            <div class="nav-logo" onclick="goMain()">
+            <div class="nav-logo">
                 <i class="bx bxs-cube"></i>
                 <div class="nav-logo-text">MainLogo</div>
             </div>
         </a>
         <div class="search-container">
-            <div class="search-bar">
-                <input id="search" type="text" placeholder="검색" />
-            </div>
             <form method="get">
+                <div class="search-bar">
+                    <input id="searchKeyword" name="searchKeyword" type="text" placeholder="검색" />
+                </div>
                 <button class="search-icon" type="submit">
-                    <label for="search">
+                    <label for="searchKeyword">
                         <i class="bx bx-search"></i>
                     </label>
                 </button>
@@ -49,7 +49,7 @@
             <c:choose>
                 <c:when test="${not empty sessionScope.user}">
                     <li class="nav-item">
-                        <a href="#" class="nav-text">${sessionScope.user.username}님 환영합니다.</a>
+                        <a href="<%=request.getContextPath()%>/profile" class="nav-text">${sessionScope.user.username}님 환영합니다.</a>
                     </li>
                 </c:when>
                 <c:otherwise>
@@ -89,47 +89,33 @@
                 </div>
             </a>
         </c:forEach>
-        <div class="new-card-container">
-            <img src="imgServlet?imgName=sample1" />
-            <div class="overlay">
-                <div class="text-container">
-                    <div class="store-title">하이바</div>
-                    <div class="store-location">남구 용소로13번길 32 1, 2층</div>
-                </div>
-            </div>
-        </div>
-        <div class="new-card-container">
-            <img src="imgServlet?imgName=sample1" />
-            <div class="overlay">
-                <div class="text-container">
-                    <div class="store-title">하이바</div>
-                    <div class="store-location">남구 용소로13번길 32 1, 2층</div>
-                </div>
-            </div>
-        </div>
-        <div class="new-card-container">
-            <img src="imgServlet?imgName=sample1" />
-            <div class="overlay">
-                <div class="text-container">
-                    <div class="store-title">하이바</div>
-                    <div class="store-location">남구 용소로13번길 32 1, 2층</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- <div class="card-container">
-          <div class="img-container"><img src="./img/하이바 경성대점.png" /></div>
-          <div class="text-container">
-            <div class="store-rating">4.4</div>
-            <div class="store-title">하이바</div>
-            <div class="store-location">남구 용소로13번길 32 1, 2층</div>
-            <div class="store-menu">자허블 사와 하이볼, 레몬 사와 하이볼, 피치블라썸 하이볼</div>
-            <div class="store-review">
-              <i class="bx bxs-star"></i>
-              <span>12</span>
-            </div>
-          </div>
-        </div> -->
+<%--        <div class="new-card-container">--%>
+<%--            <img src="imgServlet?imgName=sample1" />--%>
+<%--            <div class="overlay">--%>
+<%--                <div class="text-container">--%>
+<%--                    <div class="store-title">하이바</div>--%>
+<%--                    <div class="store-location">남구 용소로13번길 32 1, 2층</div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="new-card-container">--%>
+<%--            <img src="imgServlet?imgName=sample1" />--%>
+<%--            <div class="overlay">--%>
+<%--                <div class="text-container">--%>
+<%--                    <div class="store-title">하이바</div>--%>
+<%--                    <div class="store-location">남구 용소로13번길 32 1, 2층</div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="new-card-container">--%>
+<%--            <img src="imgServlet?imgName=sample1" />--%>
+<%--            <div class="overlay">--%>
+<%--                <div class="text-container">--%>
+<%--                    <div class="store-title">하이바</div>--%>
+<%--                    <div class="store-location">남구 용소로13번길 32 1, 2층</div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
     </div>
 </main>
 <footer class="footer">

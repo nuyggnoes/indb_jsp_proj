@@ -4,7 +4,7 @@ import com.example.dto.UserDTO;
 import com.example.dao.UserDAO;
 
 public class UserService {
-    private UserDAO userDao = new UserDAO();
+    private final UserDAO userDao = new UserDAO();
 
     public String registerUser(UserDTO userDTO) {
         if (userDao.existsByUsername(userDTO.getUsername())) {
