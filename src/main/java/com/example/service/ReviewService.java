@@ -13,4 +13,7 @@ public class ReviewService {
     public List<ReviewDTO> getAllReviewByStoreId(int storeId) {
         return reviewDAO.selectReviewByStoreId(storeId);
     }
+    public boolean delelteReview(String person_name){
+        return reviewDAO.deleteReviewByPersonName(person_name);
+    }
 }

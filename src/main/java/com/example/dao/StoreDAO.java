@@ -1,7 +1,6 @@
 package com.example.dao;
 
 import com.example.dto.StoreDTO;
-import com.example.dto.UserDTO;
 import com.jdbc.util.DBUtil;
 
 import java.sql.Connection;

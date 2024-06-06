@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="./css/detail.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <header class="nav">
@@ -85,17 +86,67 @@
                 <a href="#" id="review-link"><i class="bx bxs-star"></i>리뷰(<%= reviewList != null ? reviewList.size() : 0 %>)</a>
             </div>
         </div>
-        <div id="map" style="width: 100%; height: 400px"></div>
-        <div class="store-description-container">
-            <h1>매장 소개</h1>
-            <p>
-                ${requestScope.store.description}
-            </p>
+        <div class="detail-first">
+            <div class="store-description-container">
+                <div>
+                    <h1>매장 소개</h1>
+                    <p>
+                        하이볼 단 하나만 생각합니다' 오직 하이볼만을 생각하고 고민하여 만든 하이바(Haiba)만의 감성과 철학을 담아
+                        하이볼 바라기가 만든 하이볼 전문점, 하이바입니다.
+                    </p>
+                </div>
+                <div class="store-option-icon">
+                    <div class="icon-n-detail"><i class="bx bx-map"></i>부산 남구 용소로 19번길 62-10 샤인빌 204호</div>
+                    <div class="icon-n-detail"><i class="bx bx-phone"></i> 010-1234-1234</div>
+                </div>
+            </div>
+            <div id="map" style="width: 47%; height: 400px; background-color: midnightblue"></div>
         </div>
         <div class="review-list-container" id="review">
             <div class="review-title">
-                <h1>리뷰(<%= reviewList != null ? reviewList.size() : 0 %>)</h1>
+                <h1><%= reviewList != null ? reviewList.size() : 0 %>건의 방문자 평가</h1>
                 <a href="#" id="move-to-review-write">리뷰 작성하기</a>
+            </div>
+            <div class="review-box">
+                <div class="rating-statistic">
+                    <div class="avg-rating">
+                        <i class="bx bxs-star" style="color: gold"></i>
+                        <span>4.2점</span>
+                    </div>
+                    <div id="chartContainer">
+                        <canvas id="ratingChart"></canvas>
+                    </div>
+                </div>
+                <div class="review-list">
+                <c:choose>
+                    <c:when test="${not empty requestScope.reviewList}">
+                        <c:forEach var="review" items="${requestScope.reviewList}">
+                                <div class="review-item-container">
+                                    <div class="review-item-title">
+                                        <div id="nickname">${review.person_name}</div>
+                                        <div class="rating">
+                                            <i id="rate12" class="bx bxs-star"></i>
+                                            <i id="rate22" class="bx bxs-star"></i>
+                                            <i id="rate32" class="bx bxs-star"></i>
+                                            <i id="rate42" class="bx bxs-star"></i>
+                                            <i id="rate52" class="bx bxs-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="review-item-content">
+                                            ${review.content}
+                                    </div>
+                                </div>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                            <div class="review-item-container">
+                                <div class="review-item-content">
+                                    등록된 리뷰가 존재하지 않습니다.
+                                </div>
+                            </div>
+                    </c:otherwise>
+                </c:choose>
+                </div>
             </div>
 <%--            <div class="review-list">--%>
 <%--                <div class="review-item-container">--%>
@@ -116,38 +167,7 @@
 <%--                    </div>--%>
 <%--                </div>--%>
 <%--            </div>--%>
-            <c:choose>
-                <c:when test="${not empty requestScope.reviewList}">
-                    <c:forEach var="review" items="${requestScope.reviewList}">
-                        <div class="review-list">
-                            <div class="review-item-container">
-                                <div class="review-item-title">
-                                    <div class="nickname">${review.person_name}</div>
-                                    <div class="rating">
-                                        <i id="rate12" class="bx bxs-star"></i>
-                                        <i id="rate22" class="bx bxs-star"></i>
-                                        <i id="rate32" class="bx bxs-star"></i>
-                                        <i id="rate42" class="bx bxs-star"></i>
-                                        <i id="rate52" class="bx bxs-star"></i>
-                                    </div>
-                                </div>
-                                <div class="review-item-content">
-                                    ${review.content}
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach>
-                </c:when>
-                <c:otherwise>
-                    <div class="review-list">
-                        <div class="review-item-container">
-                            <div class="review-item-content">
-                                    등록된 리뷰가 존재하지 않습니다.
-                            </div>
-                        </div>
-                    </div>
-                </c:otherwise>
-            </c:choose>
+
         </div>
         <div class="review-write-container">
             <div class="review-title">
@@ -340,23 +360,56 @@
         console.log(typeof userSession);
     }
 
-    <%--function validationBeforeSubmit(){--%>
-    <%--    const userSession = "<%=session.getAttribute("user") != null ? session.getAttribute("user").toString() : "" %>";--%>
-    <%--    if (userSession === "") {--%>
-    <%--        const textarea = document.getElementById("reviewContents");--%>
-    <%--        const confirmed = confirm("로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?");--%>
-    <%--        if (!confirmed) {--%>
-    <%--            textarea.blur();--%>
-    <%--            return false;--%>
-    <%--        }--%>
-    <%--        else{--%>
-    <%--            window.location.href = "login";--%>
-    <%--        }--%>
-    <%--    }--%>
-    <%--    console.log(userSession);--%>
-    <%--    console.log(typeof userSession);--%>
-    <%--    return true;--%>
-    <%--}--%>
+    // 차트
+    // 별점 데이터
+    const ratings = [5, 4, 3, 2, 1];
+    const counts = [3, 2, 2, 0, 1]; // 각 별점에 해당하는 개수
+    const ratingLabels = ratings.map(function(rating){
+        return "⭐️" + rating;
+    });
+
+    const canvas = document.getElementById("ratingChart");
+    canvas.width = 800; // 원하는 너비 설정
+    canvas.height = 600;
+
+    // 막대 그래프 그리기
+    const ctx = canvas.getContext("2d");
+    const ratingChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ratingLabels,
+            datasets: [
+                {
+                    label: "별점 개수",
+                    data: counts,
+                    backgroundColor: "gold",
+                    borderWidth: 0,
+                },
+            ],
+        },
+        options: {
+            indexAxis: "y",
+            scales: {
+                x: {
+                    beginAtZero: true,
+                },
+                y: {
+                    offset: true,
+                },
+            },
+            plugins: {
+                legend: {
+                    display: false,
+                },
+            },
+            elements: {
+                bar: {
+                    categoryPercentage: 1,
+                    barPercentage: 0.5,
+                },
+            },
+        },
+    });
 </script>
 </body>
 </html>

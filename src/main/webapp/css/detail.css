@@ -91,6 +91,12 @@
 .review-count a, .review-count i{
     color: grey;
 }
+.detail-first{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
 
 .store-description-container,
 .review-list-container,
@@ -100,6 +106,15 @@
     width: 100%;
     padding: 20px;
     margin-top: 30px;
+}
+.store-description-container{
+    display: flex;
+    flex-direction: column;
+    width: 47%;
+    margin-top: 0;
+}
+.store-description-container div:first-child{
+    height: 70%;
 }
 .store-description-container h1,
 .review-list-container h1{
@@ -119,6 +134,30 @@
     font-size: 20px;
     font-weight: 700;
 }
+
+.review-box{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.review-box .rating-statistic{
+    width: 40%;
+}
+.review-box .rating-statistic .avg-rating{
+    height: 15%;
+}
+
+.review-box .rating-statistic .avg-rating span,i{
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.review-list{
+    width: 60%;
+    height: 400px;
+    overflow-y: scroll;
+}
+
 .review-list-container .review-title a{
     color: #FF6A00;
     font-weight: 700;
@@ -128,22 +167,28 @@
     border-top: 1px solid #aeaeae;
 }
 .review-item-container{
-    padding-top: 20px;
+    border: 1px solid #dfdfdf;
+    padding: 20px;
     margin-bottom: 20px;
 }
 .review-item-title{
     display: flex;
-    width: 20%;
-    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
 }
 .review-item-title #nickname{
     font-size: 18px;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-right: 10px;
 }
 .review-item-title .rating i{
     color: rgba(250, 208, 0, 0.99);
 }
+.review-item-content{
+    line-height: 1.5em;
+}
+
 /* rating form */
 #rating-form .rating-field{
     display: flex;
@@ -183,11 +228,4 @@
     color: lightgray;
 }
 
-.star-rating span.selected {
-    color: gold;
-}
-
-.star-rating span:hover,
-.star-rating span:hover ~ span {
-    color: gold;
-}
+.sta

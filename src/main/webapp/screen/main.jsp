@@ -64,31 +64,55 @@
         </ul>
     </div>
 </header>
+<div class="banner-container">
+    <img src="./img/pknubanner.png" />
+    <!-- <div class="banner-overlay">banner</div> -->
+    <div class="banner-overlay">
+        <div class="banner-text">BANNER</div>
+        <div class="search-container">
+            <form method="get">
+                <div class="search-bar">
+                    <input id="search" type="text" placeholder="검색" />
+                </div>
+                <button class="search-icon" type="submit">
+                    <label for="search">
+                        <i class="bx bx-search"></i>
+                    </label>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 <main class="main-screen">
     <div class="category-list-container">
-        <div class="category-box">#main.jsp</div>
-        <div class="category-box">#카테고리</div>
-        <div class="category-box">#카테고리</div>
-        <div class="category-box">#카테고리</div>
-        <div class="category-box">#카테고리</div>
-        <div class="category-box">#카테고리</div>
+        <div class="category-v2">#main.jsp</div>
+        <div class="category-v2">#카테고리</div>
+        <div class="category-v2">#카테고리</div>
+        <div class="category-v2">#카테고리</div>
     </div>
     <div class="grid-container">
-        <c:forEach var="store" items="${sessionScope.store_list}">
-            <a href="detail?store_id=${store.store_id}">
-                <div class="new-card-container">
+        <c:choose>
+            <c:when test="${not empty sessionScope.store_list}">
+                <c:forEach var="store" items="${sessionScope.store_list}">
+                    <a href="detail?store_id=${store.store_id}">
+                        <div class="new-card-container">
 
-                        <img src="imgServlet?store_id=${store.store_id}" />
+                                <img src="imgServlet?store_id=${store.store_id}" />
 
-                    <div class="overlay">
-                        <div class="text-container">
-                            <div class="store-title">${store.store_name}</div>
-                            <div class="store-location">${store.location}</div>
+                            <div class="overlay">
+                                <div class="text-container">
+                                    <div class="store-title">${store.store_name}</div>
+                                    <div class="store-location">${store.location}</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </a>
-        </c:forEach>
+                    </a>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <h1>검색 결과가 존재하지 않습니다.</h1>
+            </c:otherwise>
+        </c:choose>
 <%--        <div class="new-card-container">--%>
 <%--            <img src="imgServlet?imgName=sample1" />--%>
 <%--            <div class="overlay">--%>
@@ -153,6 +177,18 @@
             box.classList.toggle("active");
         });
     });
+
+    const categoryBoxes2 = document.querySelectorAll(".category-v2");
+
+    categoryBoxes2.forEach((box) => {
+        box.addEventListener("click", (event) => {
+            console.log(event.target.innerText);
+            box.classList.toggle("active");
+        });
+    });
+    function goDetail() {
+        window.location.href = "detail.html";
+    }
 </script>
 </body>
 

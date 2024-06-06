@@ -5,7 +5,6 @@ import com.example.dto.StoreDTO;
 import com.example.dto.UserDTO;
 import com.example.service.ReviewService;
 import com.example.service.StoreService;
-
 import java.io.*;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -27,6 +26,11 @@ public class DetailController extends HttpServlet {
         int store_id = Integer.parseInt(request.getParameter("store_id"));
         StoreDTO store = storeService.getStoreById(store_id);
         List<ReviewDTO> reviewList = reviewService.getAllReviewByStoreId(store_id);
+        for(ReviewDTO review : reviewList){
+            String content = review.getContent();
+            content = content.replace("\n", "<br>");
+            review.setContent(content);
+        }
         request.setAttribute("reviewList", reviewList);
         request.setAttribute("store", store);
         request.getRequestDispatcher("/screen/detail.jsp").forward(request, response);

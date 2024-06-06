@@ -55,4 +55,23 @@ public class ReviewDAO {
         }
         return reviewList;
     }
+
+    public boolean deleteReviewByPersonName(String personName) {
+        System.out.println("-------ReviewDAO : deleteReviewByPersonName-------");
+        String query = "DELETE * FROM store_review where username = ?";
+        List<ReviewDTO> reviewList = new ArrayList<>();
+        try (Connection connection = DBUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, personName);
+
+            int rowsInserted = preparedStatement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("A new review was deleted successfully!");
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
