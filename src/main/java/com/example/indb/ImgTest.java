@@ -13,7 +13,7 @@ public class ImgTest {
         String USER = "system";
         String PASSWORD = "1234";
 
-        String filePath = "/Users/imseong-gyun/Desktop/inDB_img/sample3.png";
+        String filePath = "/Users/imseong-gyun/Desktop/inDB_img/funnybeer_img.png";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -29,8 +29,8 @@ public class ImgTest {
             pstmt = conn.prepareStatement(sql);
 
             // 데이터 준비
-            pstmt.setInt(1, 2); // store_id
-            pstmt.setString(2, "sample3");
+            pstmt.setInt(1, 11); // store_id
+            pstmt.setString(2, "funnybeer_img");
 
             // 이미지 파일을 읽어 BLOB로 설정
             File imgFile = new File(filePath);

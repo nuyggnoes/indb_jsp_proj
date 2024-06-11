@@ -19,6 +19,15 @@ public class StoreService {
     }
 
     public List<StoreDTO> searchStoreByKeyword(String keyword){
-        return storeDAO.findStoreByKeyword(keyword);
+        List<StoreDTO> storeList;
+        if(keyword.startsWith("#")){
+            keyword = keyword.substring(2);
+            storeList = storeDAO.findStoreByCategory(keyword);
+        }
+        else{
+            storeList = storeDAO.findStoreByKeyword(keyword);
+        }
+
+        return storeList;
     }
 }

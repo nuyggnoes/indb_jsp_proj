@@ -25,8 +25,8 @@ public class StoreDAO {
                 store.setStore_name(resultSet.getString("store_name"));
                 store.setDescription(resultSet.getString("description"));
                 store.setCategory(resultSet.getString("category"));
+                store.setLng_n_lat(resultSet.getString("lng_n_lat"));
                 store.setLocation(resultSet.getString("location"));
-                store.setRating(resultSet.getFloat("rating"));
                 store.setStore_number(resultSet.getString("store_number"));
                 store_list.add(store);
             }
@@ -49,8 +49,8 @@ public class StoreDAO {
                 store.setStore_name(resultSet.getString("store_name"));
                 store.setDescription(resultSet.getString("description"));
                 store.setCategory(resultSet.getString("category"));
+                store.setLng_n_lat(resultSet.getString("lng_n_lat"));
                 store.setLocation(resultSet.getString("location"));
-                store.setRating(resultSet.getFloat("rating"));
                 store.setStore_number(resultSet.getString("store_number"));
             }
         } catch (SQLException e) {
@@ -73,8 +73,33 @@ public class StoreDAO {
                 store.setStore_name(resultSet.getString("store_name"));
                 store.setDescription(resultSet.getString("description"));
                 store.setCategory(resultSet.getString("category"));
+                store.setLng_n_lat(resultSet.getString("lng_n_lat"));
                 store.setLocation(resultSet.getString("location"));
-                store.setRating(resultSet.getFloat("rating"));
+                store.setStore_number(resultSet.getString("store_number"));
+                store_list.add(store);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return store_list;
+    }
+
+    public List<StoreDTO> findStoreByCategory(String keyword) {
+        System.out.println("-------StoreDAO : findStoreByCategory-------");
+        String query = "SELECT * FROM store WHERE category LIKE ?";
+        List<StoreDTO> store_list = new ArrayList<>();
+        try (Connection connection = DBUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, "%" + keyword + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                StoreDTO store = new StoreDTO();
+                store.setStore_id(resultSet.getInt("store_id"));
+                store.setStore_name(resultSet.getString("store_name"));
+                store.setDescription(resultSet.getString("description"));
+                store.setCategory(resultSet.getString("category"));
+                store.setLng_n_lat(resultSet.getString("lng_n_lat"));
+                store.setLocation(resultSet.getString("location"));
                 store.setStore_number(resultSet.getString("store_number"));
                 store_list.add(store);
             }

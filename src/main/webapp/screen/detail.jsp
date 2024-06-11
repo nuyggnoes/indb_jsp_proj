@@ -1,12 +1,25 @@
 <%@ page import="com.example.dto.StoreDTO" %>
 <%@ page import="com.example.dto.ReviewDTO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.google.gson.Gson"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
     StoreDTO store = (StoreDTO) request.getAttribute("store");
-    String storeLocation = store.getLocation();
+    int storeID = store.getStore_id();
+    String storeLngLat = store.getLng_n_lat();
+    String storeDescription = store.getDescription().replaceAll("(\r\n|\n)", "<br>");
+    String[] storeCategoryArr = store.getCategory().split(",");
     List<ReviewDTO> reviewList = (List<ReviewDTO>) request.getAttribute("reviewList");
+    int total = 0;
+    int cnt = 0;
+    for(ReviewDTO review : reviewList){
+        if(review.getStore_id() == storeID){
+            total += review.getRating();
+            cnt ++;
+        }
+    }
+    float avgRating = Math.round((float) total /cnt * 10) / 10.0f;
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,23 +41,14 @@
                 <div class="nav-logo-text">MainLogo</div>
             </div>
         </a>
-        <div class="search-container">
-            <form method="get">
-                <div class="search-bar">
-                    <input id="search" type="text" placeholder="검색" />
-                </div>
-                <button class="search-icon" type="submit">
-                    <label for="search">
-                        <i class="bx bx-search"></i>
-                    </label>
-                </button>
-            </form>
-        </div>
         <ul class="nav-list">
             <c:choose>
                 <c:when test="${not empty sessionScope.user}">
                     <li class="nav-item">
                         <a href="<%=request.getContextPath()%>/profile" class="nav-text">${sessionScope.user.username}님 환영합니다.</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<%=request.getContextPath()%>/screen/logout.jsp" class="logout-btn">로그아웃</a>
                     </li>
                 </c:when>
                 <c:otherwise>
@@ -76,11 +80,11 @@
         <div class="store-title-container">
             <div class="store-title-rating">
                 <div>${requestScope.store.store_name}</div>
-                <div class="store-rating">${requestScope.store.rating}</div>
+                <div class="store-rating"><%=avgRating%></div>
             </div>
             <div class="store-category-container">
-                <div class="store-category">#카테고리</div>
-                <div class="store-category">#카테고리</div>
+                <div class="store-category"># <%=storeCategoryArr[0]%></div>
+                <div class="store-category"># <%=storeCategoryArr[1]%></div>
             </div>
             <div class="review-count">
                 <a href="#" id="review-link"><i class="bx bxs-star"></i>리뷰(<%= reviewList != null ? reviewList.size() : 0 %>)</a>
@@ -89,29 +93,28 @@
         <div class="detail-first">
             <div class="store-description-container">
                 <div>
-                    <h1>매장 소개</h1>
+                    <h1>가게 정보</h1>
                     <p>
-                        하이볼 단 하나만 생각합니다' 오직 하이볼만을 생각하고 고민하여 만든 하이바(Haiba)만의 감성과 철학을 담아
-                        하이볼 바라기가 만든 하이볼 전문점, 하이바입니다.
+                        <%=storeDescription%>
                     </p>
                 </div>
                 <div class="store-option-icon">
-                    <div class="icon-n-detail"><i class="bx bx-map"></i>부산 남구 용소로 19번길 62-10 샤인빌 204호</div>
-                    <div class="icon-n-detail"><i class="bx bx-phone"></i> 010-1234-1234</div>
+                    <div class="icon-n-detail"><i class="bx bx-map"></i>${requestScope.store.location}</div>
+                    <div class="icon-n-detail"><i class="bx bx-phone"></i> ${requestScope.store.store_number}</div>
                 </div>
             </div>
-            <div id="map" style="width: 47%; height: 400px; background-color: midnightblue"></div>
+            <div id="map" style="width: 48%; height: 400px; background-color: midnightblue"></div>
         </div>
         <div class="review-list-container" id="review">
             <div class="review-title">
                 <h1><%= reviewList != null ? reviewList.size() : 0 %>건의 방문자 평가</h1>
-                <a href="#" id="move-to-review-write">리뷰 작성하기</a>
+                <a href="#" id="openDialogBtn">리뷰 작성하기</a>
             </div>
             <div class="review-box">
                 <div class="rating-statistic">
                     <div class="avg-rating">
                         <i class="bx bxs-star" style="color: gold"></i>
-                        <span>4.2점</span>
+                        <span><%=avgRating%>점</span>
                     </div>
                     <div id="chartContainer">
                         <canvas id="ratingChart"></canvas>
@@ -125,55 +128,73 @@
                                     <div class="review-item-title">
                                         <div id="nickname">${review.person_name}</div>
                                         <div class="rating">
-                                            <i id="rate12" class="bx bxs-star"></i>
-                                            <i id="rate22" class="bx bxs-star"></i>
-                                            <i id="rate32" class="bx bxs-star"></i>
-                                            <i id="rate42" class="bx bxs-star"></i>
-                                            <i id="rate52" class="bx bxs-star"></i>
+                                            <c:forEach var="i" begin="1" end="5">
+                                                <c:choose>
+                                                    <c:when test="${i <= review.rating}">
+                                                        <i class="bx bxs-star"></i>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <i class="bx bx-star"></i>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                     <div class="review-item-content">
                                             ${review.content}
                                     </div>
+                                    <div class="review-time">
+                                        2024년 6월 1일
+                                    </div>
                                 </div>
                         </c:forEach>
                     </c:when>
                     <c:otherwise>
-                            <div class="review-item-container">
-                                <div class="review-item-content">
-                                    등록된 리뷰가 존재하지 않습니다.
-                                </div>
-                            </div>
+                        <div class="no-review">
+                            등록된 리뷰가 존재하지 않습니다.
+                        </div>
                     </c:otherwise>
                 </c:choose>
                 </div>
             </div>
-<%--            <div class="review-list">--%>
-<%--                <div class="review-item-container">--%>
-<%--                    <div class="review-item-title">--%>
-<%--                        <div class="nickname">pknu1234</div>--%>
-<%--                        <div class="rating">--%>
-<%--                            <i id="rate1" class="bx bxs-star"></i>--%>
-<%--                            <i id="rate2" class="bx bxs-star"></i>--%>
-<%--                            <i id="rate3" class="bx bxs-star"></i>--%>
-<%--                            <i id="rate4" class="bx bxs-star"></i>--%>
-<%--                            <i id="rate5" class="bx bxs-star"></i>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                    <div class="review-item-content">--%>
-<%--                        하이볼도 맛있었구요!!에그인헬도 맛있었어요!! 매장도 깔끔 깨끗했고 화장실도 깨끗해서 좋았어요!!--%>
-<%--                        직원분들도 엄청 친절하셨어요😊 밥을 먹고 2차로 가서 간단히 먹었는데 넘 좋더라구요~! 다음에 다른 메뉴--%>
-<%--                        맛보러 다시 방문해야겠어요!--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-
         </div>
-        <div class="review-write-container">
-            <div class="review-title">
-                <h1>리뷰 작성하기</h1>
-            </div>
-            <div>
+<%--        <div class="review-write-container">--%>
+<%--            <div class="review-title">--%>
+<%--                <h1>리뷰 작성하기</h1>--%>
+<%--            </div>--%>
+<%--            <div>--%>
+<%--                <form name="rating-form" id="rating-form" onsubmit="return validationBeforeSubmit()" method="post">--%>
+<%--                    <div class="rating-field">--%>
+<%--                        <div class="star-rating">--%>
+<%--                            <span data-value="1">★</span>--%>
+<%--                            <span data-value="2">★</span>--%>
+<%--                            <span data-value="3">★</span>--%>
+<%--                            <span data-value="4">★</span>--%>
+<%--                            <span data-value="5">★</span>--%>
+<%--                        </div>--%>
+<%--                        <span class="text-bold">별점을 선택해주세요.</span>--%>
+<%--                        <input type="hidden" name="reviewStar" id="reviewStar" value="0" />--%>
+<%--                    </div>--%>
+<%--                    <div>--%>
+<%--                        <textarea--%>
+<%--                                class="form-control"--%>
+<%--                                type="text"--%>
+<%--                                id="reviewContents"--%>
+<%--                                name="reviewContents"--%>
+<%--                                placeholder="좋은 리뷰를 남겨주시면 가게에 큰 힘이 됩니다."--%>
+<%--                                onfocus="validationCheck()"></textarea>--%>
+<%--                    </div>--%>
+<%--                    <input type="submit" value="리뷰 등록하기" onclick="validationCheck()"/>--%>
+<%--                </form>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+
+        <div id="reviewDialog" class="dialog">
+            <div class="dialog-content">
+                <span id="closeDialogBtn" class="close-btn">&times;</span>
+                <div class="review-title">
+                    <h1>리뷰 작성하기</h1>
+                </div>
                 <form name="rating-form" id="rating-form" onsubmit="return validationBeforeSubmit()" method="post">
                     <div class="rating-field">
                         <div class="star-rating">
@@ -197,6 +218,7 @@
                     </div>
                     <input type="submit" value="리뷰 등록하기" onclick="validationCheck()"/>
                 </form>
+
             </div>
         </div>
     </div>
@@ -272,18 +294,19 @@
     });
     // kakao map 추가
     // 지도를 초기화하는 함수
+    let storeLocation = "<%=storeLngLat%>"
+    let coords = storeLocation.split(',');
+    let lat = parseFloat(coords[0]);
+    let lng = parseFloat(coords[1]);
     let mapContainer = document.getElementById("map"), // 지도를 표시할 div
         mapOption = {
-            center: new kakao.maps.LatLng(35.1368993, 129.102391), // 지도의 중심좌표
+            center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
             level: 3, // 지도의 확대 레벨
         };
 
     // 지도를 생성
     let map = new kakao.maps.Map(mapContainer, mapOption);
-    let storeLocation = "<%=storeLocation%>"
-    let coords = storeLocation.split(',');
-    let lat = parseFloat(coords[0]);
-    let lng = parseFloat(coords[1]);
+
     // 마커를 생성
     let markerPosition = new kakao.maps.LatLng(lat, lng);
     let marker = new kakao.maps.Marker({
@@ -292,6 +315,7 @@
 
     // 마커를 지도에 표시
     marker.setMap(map);
+
 
     // 별점
     const stars = document.querySelectorAll(".star-rating span");
@@ -348,8 +372,10 @@
 
             const confirmed = confirm("로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?");
             if (!confirmed) {
-                textarea.blur();
-                submitButton.disabled = true;
+                const reviewDialog = document.getElementById('reviewDialog');
+                reviewDialog.style.display = 'none';
+                // textarea.blur();
+                // submitButton.disabled = true;
             }
             else{
                 // login.jsp로 이동
@@ -361,12 +387,20 @@
     }
 
     // 차트
-    // 별점 데이터
     const ratings = [5, 4, 3, 2, 1];
-    const counts = [3, 2, 2, 0, 1]; // 각 별점에 해당하는 개수
+    const reviewList = JSON.parse('<%= new Gson().toJson(request.getAttribute("reviewList")).replaceAll("\\\\", "\\\\\\\\").replaceAll("\"", "\\\\\"") %>');
+    console.log(reviewList);
+    const counts = [0, 0, 0, 0, 0];
+    reviewList.forEach(review => {
+        if (review.rating >= 1 && review.rating <= 5) {
+            counts[5 - review.rating]++;
+        }
+    });
+    // 별점 개수
     const ratingLabels = ratings.map(function(rating){
         return "⭐️" + rating;
     });
+    const totalReviews = reviewList.length;
 
     const canvas = document.getElementById("ratingChart");
     canvas.width = 800; // 원하는 너비 설정
@@ -392,6 +426,12 @@
             scales: {
                 x: {
                     beginAtZero: true,
+                    ticks: {
+                        precision: 0, // 소수점 없이 정수로 표시
+                        stepSize: 1,  // 정수 단위로 증가
+                    },
+                    min: 0, // 시작점을 0으로 설정
+                    max: totalReviews, // 최대값을 전체 리뷰 개수로 설정
                 },
                 y: {
                     offset: true,
@@ -409,6 +449,27 @@
                 },
             },
         },
+    });
+    // 리뷰 작성 리뉴얼
+    document.addEventListener('DOMContentLoaded', () => {
+        const openDialogBtn = document.getElementById('openDialogBtn');
+        const reviewDialog = document.getElementById('reviewDialog');
+        const closeDialogBtn = document.getElementById('closeDialogBtn');
+
+        // "리뷰 작성하기" 버튼 클릭 시 다이얼로그 열기
+        openDialogBtn.addEventListener('click', () => {
+            reviewDialog.style.display = 'block';
+        });
+
+        closeDialogBtn.addEventListener('click', () => {
+            reviewDialog.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === reviewDialog) {
+                reviewDialog.style.display = 'none';
+            }
+        });
     });
 </script>
 </body>

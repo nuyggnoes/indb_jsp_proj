@@ -2,22 +2,6 @@
 @import url('header.css');
 @import url('footer.css');
 
-/* category */
-.category-list-container{
-    display: flex;
-}
-.category-box{
-    cursor: pointer;
-    color : #FF6A00;
-    border: 2px solid #FF6A00;
-    padding: 10px 20px;
-    margin: 10px;
-    border-radius: 20px;
-}
-.category-box.active {
-    background-color: #FF6A00;
-    color: white;
-}
 /* banner */
 .banner-container{
     display: flex;
@@ -45,7 +29,7 @@
     width: 100%;
     /* height: 100%; */
     color: white;
-    font-size: 50px;
+    font-size: 40px;
     font-weight: 800;
 }
 .banner-container .banner-overlay .banner-text{
@@ -59,30 +43,22 @@
     width: 940px;
     margin-bottom: 20px;
 }
-/*.category-box{*/
-/*    cursor: pointer;*/
-/*    color : #FF6A00;*/
-/*    border: 2px solid #FF6A00;*/
-/*    padding: 10px 20px;*/
-/*    margin: 10px;*/
-/*    border-radius: 20px;*/
-/*}*/
-/*.category-box.active {*/
-/*    background-color: #FF6A00;*/
-/*    color: white;*/
-/*}*/
-/* category ver.2 */
-.category-v2{
+.category-label{
+    width: 100%;
+}
+
+.category-box{
     text-align: center;
     cursor: pointer;
-    width: 18.3%;
     padding: 20px 30px;
     border: 1px solid #FF6A00;
     color: #FF6A00;
+    font-weight: 700;
 }
-.category-v2.active {
+.category-box.active {
     background-color: #FF6A00;
     color: white;
+    font-weight: 700;
 }
 
 /* main */
@@ -91,11 +67,11 @@
     flex-direction: column;
     align-items: center;
     /* margin-top: 90px; */
-    margin: 20px auto auto;
+    margin: 20px auto;
     padding: 0 20px;
     max-width: 1640px;
     min-width: 1100px;
-    height: 100vh;
+    min-height: 100vh;
 }
 .grid-container {
     display: grid;
@@ -208,4 +184,15 @@
     color: white;
     font-size: 1em;
     margin-top: 5px;
+}
+
+.no-search-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 80vh;
+    font-weight: 800;
+    font-size: 35px;
+    color: #aeaeae;
 }

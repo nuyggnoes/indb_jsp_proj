@@ -36,7 +36,7 @@ public class ReviewDAO {
 
     public List<ReviewDTO> selectReviewByStoreId(int storeId) {
         System.out.println("-------ReviewDAO : findAllReviewByStoreID-------");
-        String query = "SELECT * FROM store_review where store_id = ?";
+        String query = "SELECT * FROM store_review where store_id = ? ORDER BY review_id DESC";
         List<ReviewDTO> reviewList = new ArrayList<>();
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {

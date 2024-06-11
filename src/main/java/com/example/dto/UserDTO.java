@@ -1,6 +1,9 @@
 package com.example.dto;
 
-public class UserDTO {
+import java.io.Serializable;
+
+public class UserDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int user_id;
     private String username;
     private String password;

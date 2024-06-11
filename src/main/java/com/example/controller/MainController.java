@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import com.example.dto.StoreDTO;
-import com.example.dto.UserDTO;
 import com.example.service.StoreService;
 
 import java.io.*;
@@ -21,6 +20,7 @@ public class MainController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         System.out.println("[GET] / (main.jsp)");
         String searchKeyword = request.getParameter("searchKeyword");
+        System.out.println("doGet/searchKeyword : " + searchKeyword);
         List<StoreDTO> storeList;
         if(searchKeyword != null && !searchKeyword.trim().isEmpty()) {
             storeList = storeService.searchStoreByKeyword(searchKeyword);
@@ -28,12 +28,13 @@ public class MainController extends HttpServlet {
             storeList = storeService.getAllStoreInfo();
         }
         request.getSession().setAttribute("store_list", storeList);
+        request.setAttribute("searchKeyword", searchKeyword);
         request.getRequestDispatcher("/screen/main.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 카테고리 검색?
     }
 
 }

@@ -1,8 +1,14 @@
-<%@ page import="com.example.dto.UserDTO" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.example.dto.StoreDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:useBean id="store_list" class="java.util.ArrayList" scope="session" />
+<%
+    String searchKeyword = (String) request.getAttribute("searchKeyword");
+    String inputValue = "";
+    String category = searchKeyword;
+    if (searchKeyword != null && !searchKeyword.startsWith("#")) {
+        inputValue = searchKeyword;
+    }
+%>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -14,8 +20,8 @@
 </head>
 <body>
 <%
-    List<StoreDTO> storeList = (List<StoreDTO>) session.getAttribute("store_list");
-    UserDTO user = (UserDTO) session.getAttribute("user");
+//    List<StoreDTO> storeList = (List<StoreDTO>) session.getAttribute("store_list");
+//    UserDTO user = (UserDTO) session.getAttribute("user");
 %>
 <header class="nav">
     <div class="nav-container">
@@ -25,31 +31,14 @@
                 <div class="nav-logo-text">MainLogo</div>
             </div>
         </a>
-        <div class="search-container">
-            <form method="get">
-                <div class="search-bar">
-                    <input id="searchKeyword" name="searchKeyword" type="text" placeholder="검색" />
-                </div>
-                <button class="search-icon" type="submit">
-                    <label for="searchKeyword">
-                        <i class="bx bx-search"></i>
-                    </label>
-                </button>
-            </form>
-        </div>
-        <%--        <ul class="nav-list">--%>
-        <%--            <li class="nav-item">--%>
-        <%--                <a href="#" target="_blank" class="nav-text">로그인</a>--%>
-        <%--            </li>--%>
-        <%--            <li class="nav-item">--%>
-        <%--                <a href="#" target="_blank" class="nav-text">회원가입</a>--%>
-        <%--            </li>--%>
-        <%--        </ul>--%>
         <ul class="nav-list">
             <c:choose>
                 <c:when test="${not empty sessionScope.user}">
                     <li class="nav-item">
                         <a href="<%=request.getContextPath()%>/profile" class="nav-text">${sessionScope.user.username}님 환영합니다.</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<%=request.getContextPath()%>/screen/logout.jsp" class="logout-btn">로그아웃</a>
                     </li>
                 </c:when>
                 <c:otherwise>
@@ -68,14 +57,17 @@
     <img src="./img/pknubanner.png" />
     <!-- <div class="banner-overlay">banner</div> -->
     <div class="banner-overlay">
-        <div class="banner-text">BANNER</div>
+        <div class="banner-text">
+            <div style="color: #FF6A00; text-align: center; font-size: 35px; margin-bottom: 20px">부경대 술집 추천 커뮤니티</div>
+            <div style="color: white; text-align: center">SOJU HELPER에 오신 것을 환영합니다.</div>
+        </div>
         <div class="search-container">
             <form method="get">
                 <div class="search-bar">
-                    <input id="search" type="text" placeholder="검색" />
+                    <input id="searchKeyword" name="searchKeyword" type="text" placeholder="검색" value="<%= inputValue %>"/>
                 </div>
                 <button class="search-icon" type="submit">
-                    <label for="search">
+                    <label for="searchKeyword">
                         <i class="bx bx-search"></i>
                     </label>
                 </button>
@@ -84,21 +76,33 @@
     </div>
 </div>
 <main class="main-screen">
-    <div class="category-list-container">
-        <div class="category-v2">#main.jsp</div>
-        <div class="category-v2">#카테고리</div>
-        <div class="category-v2">#카테고리</div>
-        <div class="category-v2">#카테고리</div>
-    </div>
-    <div class="grid-container">
-        <c:choose>
-            <c:when test="${not empty sessionScope.store_list}">
+    <form method="get">
+        <div class="category-list-container">
+            <input id="category_1" name="searchKeyword" type="submit" hidden="hidden">
+            <label class="category-label" for="category_1">
+                <div class="category-box"># 안주가 맛있는</div>
+            </label>
+            <input id="category_2" name="searchKeyword" type="submit" hidden="hidden">
+            <label class="category-label" for="category_2">
+                <div class="category-box"># 가성비 좋은</div>
+            </label>
+            <input id="category_3" name="searchKeyword" type="submit" hidden="hidden">
+            <label class="category-label" for="category_3">
+                <div class="category-box"># 분위기 있는</div>
+            </label>
+            <input id="category_4" name="searchKeyword" type="submit" hidden="hidden">
+            <label class="category-label" for="category_4">
+                <div class="category-box"># 특색 있는 메뉴</div>
+            </label>
+        </div>
+    </form>
+    <c:choose>
+        <c:when test="${not empty sessionScope.store_list}">
+            <div class="grid-container">
                 <c:forEach var="store" items="${sessionScope.store_list}">
                     <a href="detail?store_id=${store.store_id}">
                         <div class="new-card-container">
-
-                                <img src="imgServlet?store_id=${store.store_id}" />
-
+                            <img src="imgServlet?store_id=${store.store_id}" />
                             <div class="overlay">
                                 <div class="text-container">
                                     <div class="store-title">${store.store_name}</div>
@@ -108,39 +112,12 @@
                         </div>
                     </a>
                 </c:forEach>
-            </c:when>
-            <c:otherwise>
-                <h1>검색 결과가 존재하지 않습니다.</h1>
-            </c:otherwise>
-        </c:choose>
-<%--        <div class="new-card-container">--%>
-<%--            <img src="imgServlet?imgName=sample1" />--%>
-<%--            <div class="overlay">--%>
-<%--                <div class="text-container">--%>
-<%--                    <div class="store-title">하이바</div>--%>
-<%--                    <div class="store-location">남구 용소로13번길 32 1, 2층</div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="new-card-container">--%>
-<%--            <img src="imgServlet?imgName=sample1" />--%>
-<%--            <div class="overlay">--%>
-<%--                <div class="text-container">--%>
-<%--                    <div class="store-title">하이바</div>--%>
-<%--                    <div class="store-location">남구 용소로13번길 32 1, 2층</div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="new-card-container">--%>
-<%--            <img src="imgServlet?imgName=sample1" />--%>
-<%--            <div class="overlay">--%>
-<%--                <div class="text-container">--%>
-<%--                    <div class="store-title">하이바</div>--%>
-<%--                    <div class="store-location">남구 용소로13번길 32 1, 2층</div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-    </div>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="no-search-container">검색 결과가 존재하지 않습니다.</div>
+        </c:otherwise>
+    </c:choose>
 </main>
 <footer class="footer">
     <div class="footer-container">
@@ -169,27 +146,26 @@
     </div>
 </footer>
 <script>
+    const categoryText = "<%=category%>";
     const categoryBoxes = document.querySelectorAll(".category-box");
 
     categoryBoxes.forEach((box) => {
+        if(box.innerHTML === categoryText){
+            box.classList.toggle("active");
+        }
         box.addEventListener("click", (event) => {
             console.log(event.target.innerText);
             box.classList.toggle("active");
         });
     });
 
-    const categoryBoxes2 = document.querySelectorAll(".category-v2");
-
-    categoryBoxes2.forEach((box) => {
-        box.addEventListener("click", (event) => {
-            console.log(event.target.innerText);
-            box.classList.toggle("active");
+    document.querySelectorAll("label").forEach((label) => {
+        label.addEventListener("click", function () {
+            const input = document.getElementById(this.htmlFor);
+            const divText = this.querySelector(".category-box").innerText;
+            input.value = divText.trim();
         });
     });
-    function goDetail() {
-        window.location.href = "detail.html";
-    }
 </script>
 </body>
-
 </html>
