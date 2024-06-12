@@ -2,9 +2,6 @@ package com.example.service;
 
 import com.example.dao.StoreDAO;
 import com.example.dto.StoreDTO;
-import com.example.dto.UserDTO;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class StoreService {

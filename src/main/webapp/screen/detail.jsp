@@ -37,8 +37,8 @@
     <div class="nav-container">
         <a href="<%=request.getContextPath()%>/">
             <div class="nav-logo">
-                <i class="bx bxs-cube"></i>
-                <div class="nav-logo-text">MainLogo</div>
+                <i class='bx bxs-bong' style="margin-right: 10px"></i>
+                <div class="nav-logo-text">SOJU HELPER</div>
             </div>
         </a>
         <ul class="nav-list">
@@ -53,10 +53,7 @@
                 </c:when>
                 <c:otherwise>
                     <li class="nav-item">
-                        <a href="<%=request.getContextPath()%>/login" class="nav-text">로그인</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="<%=request.getContextPath()%>/register" class="nav-text">회원가입</a>
+                        <a href="<%=request.getContextPath()%>/login_or_register" class="nav-text">로그인</a>
                     </li>
                 </c:otherwise>
             </c:choose>
@@ -87,7 +84,7 @@
                 <div class="store-category"># <%=storeCategoryArr[1]%></div>
             </div>
             <div class="review-count">
-                <a href="#" id="review-link"><i class="bx bxs-star"></i>리뷰(<%= reviewList != null ? reviewList.size() : 0 %>)</a>
+                <a href="#" id="review-link"><i class="bx bxs-star"></i> 리뷰(<%= reviewList != null ? reviewList.size() : 0 %>)</a>
             </div>
         </div>
         <div class="detail-first">
@@ -261,7 +258,7 @@
 
     function slideToNextImage() {
         currentIndex++;
-        if (currentIndex >= imageCount) {
+        if (currentIndex >= imageCount - 1) {
             currentIndex = 0;
         }
         updateSliderPosition();
@@ -288,10 +285,6 @@
         event.preventDefault();
         document.querySelector("#review").scrollIntoView({ behavior: "smooth", block: "center" });
     });
-    document.querySelector("#move-to-review-write").addEventListener("click", function (event) {
-        event.preventDefault();
-        document.querySelector(".review-write-container").scrollIntoView({ behavior: "smooth", block: "center" });
-    });
     // kakao map 추가
     // 지도를 초기화하는 함수
     let storeLocation = "<%=storeLngLat%>"
@@ -315,7 +308,6 @@
 
     // 마커를 지도에 표시
     marker.setMap(map);
-
 
     // 별점
     const stars = document.querySelectorAll(".star-rating span");
@@ -367,19 +359,15 @@
     function validationCheck(){
         const userSession = "<%=session.getAttribute("user") != null ? session.getAttribute("user").toString() : "" %>";
         if (userSession === "") {
-            const textarea = document.querySelector("#reviewContents");
-            const submitButton = document.querySelector("#rating-form input[type=submit]");
-
+            // const textarea = document.querySelector("#reviewContents");
+            // const submitButton = document.querySelector("#rating-form input[type=submit]");
             const confirmed = confirm("로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?");
             if (!confirmed) {
                 const reviewDialog = document.getElementById('reviewDialog');
                 reviewDialog.style.display = 'none';
-                // textarea.blur();
-                // submitButton.disabled = true;
             }
             else{
-                // login.jsp로 이동
-                window.location.href = "login";
+                window.location.href = "login_or_register";
             }
         }
         console.log(userSession);
@@ -403,7 +391,7 @@
     const totalReviews = reviewList.length;
 
     const canvas = document.getElementById("ratingChart");
-    canvas.width = 800; // 원하는 너비 설정
+    canvas.width = 800;
     canvas.height = 600;
 
     // 막대 그래프 그리기
@@ -427,11 +415,11 @@
                 x: {
                     beginAtZero: true,
                     ticks: {
-                        precision: 0, // 소수점 없이 정수로 표시
-                        stepSize: 1,  // 정수 단위로 증가
+                        precision: 0,
+                        stepSize: 1,
                     },
-                    min: 0, // 시작점을 0으로 설정
-                    max: totalReviews, // 최대값을 전체 리뷰 개수로 설정
+                    min: 0,
+                    max: totalReviews,
                 },
                 y: {
                     offset: true,
@@ -451,25 +439,25 @@
         },
     });
     // 리뷰 작성 리뉴얼
-    document.addEventListener('DOMContentLoaded', () => {
-        const openDialogBtn = document.getElementById('openDialogBtn');
-        const reviewDialog = document.getElementById('reviewDialog');
-        const closeDialogBtn = document.getElementById('closeDialogBtn');
+    const openDialogBtn = document.getElementById('openDialogBtn');
+    console.log(openDialogBtn);
+    const reviewDialog = document.getElementById('reviewDialog');
+    const closeDialogBtn = document.getElementById('closeDialogBtn');
 
-        // "리뷰 작성하기" 버튼 클릭 시 다이얼로그 열기
-        openDialogBtn.addEventListener('click', () => {
-            reviewDialog.style.display = 'block';
-        });
+    // "리뷰 작성하기" 버튼 클릭 시 다이얼로그 열기
+    openDialogBtn.addEventListener('click', (event) => {
+        console.log(event.target)
+        reviewDialog.style.display = 'block';
+    });
 
-        closeDialogBtn.addEventListener('click', () => {
+    closeDialogBtn.addEventListener('click', () => {
+        reviewDialog.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === reviewDialog) {
             reviewDialog.style.display = 'none';
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target === reviewDialog) {
-                reviewDialog.style.display = 'none';
-            }
-        });
+        }
     });
 </script>
 </body>

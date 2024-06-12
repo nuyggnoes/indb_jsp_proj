@@ -51,12 +51,12 @@
     text-align: center;
     cursor: pointer;
     padding: 20px 30px;
-    border: 1px solid #FF6A00;
-    color: #FF6A00;
+    border: 1px solid #4EA685;
+    color: #4EA685;
     font-weight: 700;
 }
 .category-box.active {
-    background-color: #FF6A00;
+    background-color: #4EA685;
     color: white;
     font-weight: 700;
 }
@@ -102,7 +102,7 @@
 }
 
 .text-container .store-rating{
-    color: #FF6A00;
+    color: #4EA685;
     font-size: 35px;
     font-weight: 800;
 }

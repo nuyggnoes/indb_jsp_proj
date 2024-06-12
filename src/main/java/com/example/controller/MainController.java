@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.example.dto.StoreDTO;
 import com.example.service.StoreService;
-
 import java.io.*;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -31,10 +30,4 @@ public class MainController extends HttpServlet {
         request.setAttribute("searchKeyword", searchKeyword);
         request.getRequestDispatcher("/screen/main.jsp").forward(request, response);
     }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 카테고리 검색?
-    }
-
 }

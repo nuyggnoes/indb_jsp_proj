@@ -73,8 +73,11 @@
     font-weight: 700;
     margin-bottom: 16px;
 }
+.store-title-rating div{
+    margin-right: 20px;
+}
 .store-rating{
-    color: #FF6A00;
+    color: #4EA685;
 }
 .store-category-container{
     display: flex;
@@ -83,11 +86,18 @@
 .store-category{
     color: white;
     padding: 8px 12px;
-    background-color: #FF6A00;
+    background-color: #4EA685;
     border-radius: 30px;
     margin-right: 8px;
 }
+.review-count{
+    display: flex;
+    align-items: center;
+}
 .review-count a, .review-count i{
+    display: flex;
+    align-items: center;
+    height: 100%;
     color: grey;
 }
 .detail-first{
@@ -168,7 +178,7 @@
 }
 
 .review-list-container .review-title a{
-    color: #FF6A00;
+    color: #4EA685;
     font-weight: 700;
     cursor: pointer;
 }
@@ -239,8 +249,9 @@
     color: white;
     font-size: 1em;
     font-weight: 600;
-    background-color: #FF6A00;
+    background-color: #4EA685;
     border-radius: 10px;
+    cursor: pointer;
 }
 #rating-form input[type=submit]:disabled{
     background: #aeaeae;

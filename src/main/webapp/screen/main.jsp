@@ -13,22 +13,21 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>메인페이지</title>
+    <title>MAIN</title>
     <link rel="stylesheet" href="./css/main.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 </head>
 <body>
-<%
-//    List<StoreDTO> storeList = (List<StoreDTO>) session.getAttribute("store_list");
-//    UserDTO user = (UserDTO) session.getAttribute("user");
-%>
 <header class="nav">
     <div class="nav-container">
         <a href="<%=request.getContextPath()%>/">
             <div class="nav-logo">
-                <i class="bx bxs-cube"></i>
-                <div class="nav-logo-text">MainLogo</div>
+                <i class='bx bxs-bong' style="margin-right: 10px"></i>
+                <div class="nav-logo-text">SOJU HELPER</div>
             </div>
         </a>
         <ul class="nav-list">
@@ -43,11 +42,11 @@
                 </c:when>
                 <c:otherwise>
                     <li class="nav-item">
-                        <a href="<%=request.getContextPath()%>/login" class="nav-text">로그인</a>
+                        <a href="<%=request.getContextPath()%>/login_or_register" class="nav-text">로그인</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="<%=request.getContextPath()%>/register" class="nav-text">회원가입</a>
-                    </li>
+<%--                    <li class="nav-item">--%>
+<%--                        <a href="<%=request.getContextPath()%>/login_or_register" class="nav-text">회원가입</a>--%>
+<%--                    </li>--%>
                 </c:otherwise>
             </c:choose>
         </ul>
@@ -55,10 +54,9 @@
 </header>
 <div class="banner-container">
     <img src="./img/pknubanner.png" />
-    <!-- <div class="banner-overlay">banner</div> -->
     <div class="banner-overlay">
         <div class="banner-text">
-            <div style="color: #FF6A00; text-align: center; font-size: 35px; margin-bottom: 20px">부경대 술집 추천 커뮤니티</div>
+            <div style="color: #4EA685; text-align: center; font-size: 35px; margin-bottom: 20px">부경대 술집 추천 커뮤니티</div>
             <div style="color: white; text-align: center">SOJU HELPER에 오신 것을 환영합니다.</div>
         </div>
         <div class="search-container">

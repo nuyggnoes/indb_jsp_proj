@@ -47,7 +47,6 @@
 %>
 <script>
     function checkPassword() {
-        console.log("checkPassword");
         const password = document.querySelector("#password");
         const passwordCheck = document.querySelector("#password_check");
         const checkText = document.querySelector(".pwdCheckText");

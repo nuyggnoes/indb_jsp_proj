@@ -11,12 +11,9 @@ public class DBUtil {
     private static final String PASSWORD = "1234";
 
     public static Connection getConnection() {
-        System.out.println("------getConnection-------");
         try {
             Class.forName(JDBC_DRIVER);
-            Connection conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-            System.out.println("JDBC 연결 성공");
-            return conn;
+            return DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
         } catch (ClassNotFoundException e) {
             System.out.println("JDBC 드라이버 로드 실패");
             throw new RuntimeException(e);

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Tiny5&display=swap');
 .nav {
     position: fixed;
     top: 0;
@@ -25,10 +26,13 @@
 }
 .nav .nav-container .nav-logo i{
     font-size: 40px;
-    color: #FF6A00;
+    color: #4EA685;
 }
 .nav .nav-container .nav-logo .nav-logo-text{
-    color: #FF6A00;
+    font-family: "Tiny5", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #4EA685;
     font-size: 28px;
     font-weight: 600;
 
@@ -54,7 +58,7 @@
 .nav .nav-container .nav-list .nav-item .logout-btn{
     padding: 10px 20px;
     color: white;
-    background: red;
+    background: #4EA685;
     font-size: 15px;
     font-weight: 500;
 }
@@ -133,10 +137,10 @@
 }
 .nav .nav-container .nav-logo i{
     font-size: 40px;
-    color: #FF6A00;
+    color: #4EA685;
 }
 .nav .nav-container .nav-logo .nav-logo-text{
-    color: #FF6A00;
+    color: #4EA685;
     font-size: 28px;
     font-weight: 600;
 
